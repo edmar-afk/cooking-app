@@ -5,10 +5,16 @@ function Search() {
 	const navigate = useNavigate();
 
 	const handleSpeech = () => {
+		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+		if (isIOS) {
+			alert("iOS browsers do not support speech recognition. Please use Chrome on Android.");
+			return;
+		}
+
 		if (!SpeechRecognition) {
-			alert("Speech recognition is not supported on this browser.");
+			alert("Speech recognition is not supported in this browser. Try using Chrome on Android.");
 			return;
 		}
 
@@ -41,12 +47,13 @@ function Search() {
 			recognition.start();
 		} catch (err) {
 			console.error("Recognition failed to start:", err);
+			alert("Failed to start recognition: " + err.message);
 		}
 	};
 
 	return (
 		<div className="flex items-center flex-col gap-4 justify-center h-screen bg-gray-300">
-			<h1 className="font-semibold">Tap Mic and Speak (updated 10:53am)</h1>
+			<h1 className="font-semibold">Tap Mic and Speak (Updated for Mobile Support)</h1>
 
 			<div className="flex items-center space-x-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-md w-72">
 				<input

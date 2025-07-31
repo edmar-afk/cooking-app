@@ -3,9 +3,16 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
 	const recognitionRef = useRef(null);
 
 	const startRecognition = () => {
+		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+		if (isIOS) {
+			alert("iOS browsers do not support speech recognition. Please use Chrome on Android.");
+			return;
+		}
+
 		if (!SpeechRecognition) {
-			alert("Hindi sinusuportahan ng browser mo ang speech recognition.");
+			alert("Speech recognition is not supported in this browser. Try using Chrome on Android.");
 			return;
 		}
 
@@ -21,6 +28,7 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
 
 		recognition.onerror = (event) => {
 			console.error("Speech recognition error:", event.error);
+			alert("Speech recognition error: " + event.error);
 		};
 
 		recognition.start();
