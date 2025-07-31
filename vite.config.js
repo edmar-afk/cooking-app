@@ -11,9 +11,9 @@ export default defineConfig({
 			registerType: "prompt",
 			includeAssets: ["favicon.ico", "apple-touch-icon.png"],
 			manifest: {
-				name: "Your App Name",
-				short_name: "App",
-				description: "Your app description",
+				name: "Cooking App",
+				short_name: "Cooking App",
+				description: "A Progressive App for Cooking Recipes",
 				start_url: "/",
 				display: "standalone",
 				background_color: "#ffffff",
