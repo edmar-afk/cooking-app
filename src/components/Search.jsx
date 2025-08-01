@@ -1,4 +1,7 @@
-import React, { useRef } from "react";import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import MicNoneIcon from "@mui/icons-material/MicNone";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Search() {
 	const inputRef = useRef(null);
@@ -52,24 +55,33 @@ function Search() {
 	};
 
 	return (
-		<div className="flex items-center flex-col gap-4 justify-center h-screen bg-gray-300">
-			<h1 className="font-semibold">Tap Mic and Speak (Updated for Mobile Support)</h1>
-
-			<div className="flex items-center space-x-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-md w-72">
+		<form className="flex items-center max-w-sm mx-auto">
+			<label
+				htmlFor="simple-search"
+				className="sr-only">
+				Search
+			</label>
+			<div className="relative w-full">
+				<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+					<SearchIcon fontSize="small" className="text-gray-500"/>
+				</div>
 				<input
 					ref={inputRef}
 					type="text"
-					placeholder="Say something..."
-					className="flex-grow bg-transparent outline-none text-gray-700 placeholder-gray-400"
+					id="simple-search"
+					className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+					placeholder="Say or type something..."
+					required
 				/>
-				<button
-					type="button"
-					onClick={handleSpeech}
-					className="text-white bg-blue-500 hover:bg-blue-600 transition px-3 py-2 rounded-full">
-					🎤
-				</button>
 			</div>
-		</div>
+			<button
+				type="button"
+				onClick={handleSpeech}
+				className="p-2.5 ms-2 text-sm font-medium text-white bg-orange-500 rounded-lg border border-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300">
+				<MicNoneIcon fontSize="small" />
+				<span className="sr-only">Start voice input</span>
+			</button>
+		</form>
 	);
 }
 
