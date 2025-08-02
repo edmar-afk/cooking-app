@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "./routes/Welcome";
 import Home from "./components/Home/Home";
+import Profile from "./routes/Profile";
 function App() {
 	return (
 		<BrowserRouter>
@@ -12,6 +13,10 @@ function App() {
 				<Route
 					path="/home"
 					element={<Home />}
+				/>
+				<Route
+					path="/profile"
+					element={<Profile/>}
 				/>
 				<Route
 					path="*"
