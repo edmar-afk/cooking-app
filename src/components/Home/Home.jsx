@@ -20,7 +20,7 @@ function Home() {
 				</div>
 				<Tips />
 			</div>
-			<NavBar /> {/* fixed and outside the scrollable content */}
+			<NavBar /> 
 		</>
 	);
 }

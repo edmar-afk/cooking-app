@@ -1,16 +1,17 @@
-import React from "react";import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import bg from "../assets/images/welcomebg.jpg";
 import Features from "../components/Features";
-
+import { Link } from "react-router-dom";
 function Welcome() {
 	const navigate = useNavigate();
 
+	
 	const requestMicPermission = async () => {
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 			console.log("Mic access granted:", stream);
 			alert("Microphone access granted. You can now use voice features.");
-			navigate("/home"); // navigate to homepage
+			navigate("/home");
 		} catch (err) {
 			console.error("Mic access error:", err);
 			alert("Microphone permission denied. Voice commands won't work.");
@@ -28,11 +29,27 @@ function Welcome() {
 				<h1 className="text-3xl font-extrabold mb-4">Welcome to 🎉</h1>
 				<p className="text-xl">Cooking instructions innovation of speech recognition</p>
 				<Features />
-				<button
-					onClick={requestMicPermission}
-					className="relative z-20 mt-6 px-6 py-3 text-orange-600 text-sm font-extrabold hover:text-white transition-all">
-					Continue
-				</button>
+				<div>
+					<button
+						onClick={requestMicPermission}
+						className="relative z-20 mt-6 px-6 py-3 text-orange-600 text-sm font-extrabold hover:text-white transition-all">
+						Continue as Guest
+					</button>
+					<p className="text-xs">OR</p>
+					<div className="mt-2">
+						<Link
+							className="text-sm font-extrabold"
+							to={"/login"}>
+							Login
+						</Link>{" "}
+						<span className="mx-3">|</span>{" "}
+						<Link
+							className="text-sm font-extrabold"
+							to={"/register"}>
+							Register
+						</Link>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
