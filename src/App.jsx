@@ -5,6 +5,7 @@ import Profile from "./routes/Profile";
 import Login from './routes/Login';
 import Register from "./routes/Register";
 import Recipe from "./routes/Recipe";
+import Favorites from "./routes/Favorites";
 
 function Logout() {
 	localStorage.clear();
@@ -39,6 +40,10 @@ function App() {
 				<Route
 					path="/recipe/:foodId"
 					element={<Recipe />}
+				/>
+				<Route
+					path="/favorites"
+					element={<Favorites/>}
 				/>
 				<Route
 					path="/logout"
