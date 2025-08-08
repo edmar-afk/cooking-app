@@ -80,7 +80,7 @@
 }
 
 .custom-welcome-button {
-	color: #fb923c; /* Tailwind's text-orange-600 */
+	color: #fb923c;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -93,4 +93,9 @@
 .custom-welcome-link {
 	color: inherit;
 	text-decoration: none;
+}
+
+.custom-welcome-blur {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
 }
