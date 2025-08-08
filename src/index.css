@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+/* Force Tailwind to include color classes used dynamically */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Safelist color classes so they are not purged in production */
+@layer utilities {
+  .bg-orange-500 {}
+  .bg-orange-200 {}
+  .hover\:bg-orange-200:hover {}
+  .hover\:text-orange-800:hover {}
+  .text-orange-600 {}
+  .text-white {}
+  .text-xs {}
+  .underline {}
+  .font-bold {}
+  .bg-white {}
+  .border-t {}
+  .border-gray-200 {}
+}
