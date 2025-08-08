@@ -25,3 +25,45 @@
 	font-weight: bold;
 	color: #ea580c; /* orange-600 */
 }
+
+
+/* Custom styles for Header component */
+
+.header-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.header-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.header-text .name {
+	font-weight: bold;
+}
+
+.chef-box {
+	border-width: 1px;
+	padding: 0.25rem;
+	border-radius: 0.5rem;
+	background-color: #ffedd5; /* Tailwind's bg-orange-100 */
+}
+
+.chef-img {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
+
+
+.custom-text-white {
+	color: #ffffff;
+}
+
+.custom-bg-orange {
+	background-color: #f97316; /* Same as Tailwind's bg-orange-500 */
+}

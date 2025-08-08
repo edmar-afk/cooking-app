@@ -6,18 +6,18 @@ function Header() {
 	const user = getUserInfoFromToken(token);
 
 	return (
-		<div className="flex flex-row justify-between items-center mb-4">
-			<div className="flex flex-col">
+		<div className="header-container">
+			<div className="header-text">
 				<p>Welcome to Cooking App,</p>
-				<p className="font-bold">
+				<p className="name">
 					{user?.last_name || "Guest"}
 				</p>
 			</div>
-			<div className="border-1 p-1 rounded-lg bg-orange-100">
+			<div className="chef-box">
 				<img
 					src={chefImg}
 					alt="Chef"
-					className="w-10 h-10"
+					className="chef-img"
 				/>
 			</div>
 		</div>
