@@ -4,15 +4,6 @@ import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
-  const [isListening, setIsListening] = useState(false);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://code.responsivevoice.org/responsivevoice.js?key=Of5LDZy2";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
 
   useEffect(() => {
     if (foodId) {
@@ -24,11 +15,26 @@ function Recipes({ foodId }) {
   }, [foodId]);
 
   const speakText = (text) => {
-    if (window.responsiveVoice) {
-      window.responsiveVoice.cancel();
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+
+      const voices = window.speechSynthesis.getVoices();
+      const selectedVoice = voices.find(
+        (voice) => voice.name.includes("Microsoft") || voice.lang === "en-US"
+      );
+
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+
       setTimeout(() => {
-        window.responsiveVoice.speak(text, "Filipino Female");
-      }, 500);
+        window.speechSynthesis.speak(utterance);
+      }, 200);
+    } else {
+      alert("Text-to-Speech is not supported in this browser.");
     }
   };
 
@@ -49,17 +55,17 @@ function Recipes({ foodId }) {
 
     if (transcript.includes("stop")) {
       console.log("🔴 Command: STOP");
-      if (window.responsiveVoice) window.responsiveVoice.cancel();
+      window.speechSynthesis.cancel();
     }
 
     if (transcript.includes("pause")) {
       console.log("⏸️ Command: PAUSE");
-      if (window.responsiveVoice) window.responsiveVoice.pause();
+      window.speechSynthesis.pause();
     }
 
     if (transcript.includes("resume")) {
       console.log("▶️ Command: RESUME");
-      if (window.responsiveVoice) window.responsiveVoice.resume();
+      window.speechSynthesis.resume();
     }
   };
 
@@ -68,31 +74,18 @@ function Recipes({ foodId }) {
     lang: "en-US",
   });
 
-  const handleTestVoice = () => {
-    if (!isListening) {
+  useEffect(() => {
+    if (recipe) {
       startRecognition();
-      setIsListening(true);
-    } else {
-      stopRecognition();
-      setIsListening(false);
     }
-  };
+    return () => stopRecognition();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipe]);
 
   if (!recipe) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="p-4 mt-8 pb-32">
-      <button
-        onClick={handleTestVoice}
-        className={`mb-4 px-4 py-2 rounded ${
-          isListening
-            ? "bg-red-500 text-white"
-            : "bg-green-500 text-white"
-        }`}
-      >
-        {isListening ? "Stop Voice" : "Test Voice"}
-      </button>
-
       <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
       <div className="space-y-1">
         {recipe.recipes
