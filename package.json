@@ -29,8 +29,7 @@
     "react-signature-pad-wrapper": "^4.1.1",
     "react-tooltip": "^5.29.1",
     "signature_pad": "^5.0.10",
-    "sweetalert2": "^11.22.0",
-    "tailwindcss": "^4.1.11"
+    "sweetalert2": "^11.22.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -42,6 +41,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "tailwindcss": "^4.1.11",
     "vite": "^6.3.5",
     "vite-plugin-pwa": "^1.0.2"
   }
