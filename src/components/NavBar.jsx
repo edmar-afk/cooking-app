@@ -24,7 +24,7 @@ function NavBar() {
               location.pathname === "/" ? "nav-text active" : "nav-text"
             }
           >
-            Homes
+            Home
           </p>
         </NavLink>
 
