@@ -1,22 +1,53 @@
 @import "tailwindcss";
 
-/* Force Tailwind to include color classes used dynamically */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Custom fallback color classes to make sure colors appear even if Tailwind purges them */
 
-/* Safelist color classes so they are not purged in production */
-@layer utilities {
-  .bg-orange-500 {}
-  .bg-orange-200 {}
-  .hover\:bg-orange-200:hover {}
-  .hover\:text-orange-800:hover {}
-  .text-orange-600 {}
-  .text-white {}
-  .text-xs {}
-  .underline {}
-  .font-bold {}
-  .bg-white {}
-  .border-t {}
-  .border-gray-200 {}
+.bg-orange-500 {
+	background-color: #f97316;
+}
+
+.bg-orange-200 {
+	background-color: #fed7aa;
+}
+
+.hover\:bg-orange-200:hover {
+	background-color: #fed7aa;
+}
+
+.hover\:text-orange-800:hover {
+	color: #c2410c;
+}
+
+.text-orange-600 {
+	color: #ea580c;
+}
+
+.text-white {
+	color: #ffffff;
+}
+
+.text-xs {
+	font-size: 0.75rem;
+	line-height: 1rem;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.font-bold {
+	font-weight: 700;
+}
+
+.bg-white {
+	background-color: #ffffff;
+}
+
+.border-t {
+	border-top-width: 1px;
+}
+
+.border-gray-200 {
+	--tw-border-opacity: 1;
+	border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
