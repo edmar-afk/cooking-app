@@ -105,9 +105,7 @@ function Recipes({ foodId }) {
       <div className="flex gap-2 mb-4">
         <button
           onClick={handleTestMic}
-          className={`px-4 py-2 rounded ${
-            isListening ? "bg-red-500 text-white" : "bg-green-500 text-white"
-          }`}
+          className={isListening ? "btn-mic-stop" : "btn-mic-start"}
         >
           {isListening ? "Stop Mic" : "Test Mic"}
         </button>
@@ -133,7 +131,9 @@ function Recipes({ foodId }) {
       </div>
 
       <div>
-        <p className="font-bold mt-4 mb-2 flex items-center gap-2">Instructions</p>
+        <p className="font-bold mt-4 mb-2 flex items-center gap-2">
+          Instructions
+        </p>
         <div className="whitespace-pre-line">{recipe.instruction}</div>
       </div>
     </div>
