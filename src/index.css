@@ -124,3 +124,50 @@
 .custom-food-text-gray-300 {
 	color: #d1d5db;
 }
+
+
+
+
+.search-custom-gray-500 {
+  color: #6b7280;
+}
+
+.search-custom-bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.search-custom-border-gray-300 {
+  border: 1px solid #d1d5db;
+}
+
+.search-custom-text-gray-900 {
+  color: #111827;
+}
+
+.search-custom-ring-blue-500:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.search-custom-border-blue-500:focus {
+  border-color: #3b82f6;
+}
+
+.search-custom-text-white {
+  color: #ffffff;
+}
+
+.search-custom-bg-orange-500 {
+  background-color: #f97316;
+}
+
+.search-custom-border-orange-500 {
+  border: 1px solid #f97316;
+}
+
+.search-custom-bg-orange-600:hover {
+  background-color: #ea580c;
+}
+
+.search-custom-ring-orange-300:focus {
+  box-shadow: 0 0 0 4px rgba(253, 186, 116, 0.5);
+}

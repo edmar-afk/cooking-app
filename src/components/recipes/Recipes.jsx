@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../assets/api";
+import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
@@ -27,59 +28,49 @@ function Recipes({ foodId }) {
       window.responsiveVoice.cancel();
       setTimeout(() => {
         window.responsiveVoice.speak(text, "Filipino Female");
-      }, 500); // small delay to ensure cancel finishes
+      }, 500);
     }
   };
 
-  useEffect(() => {
+  const handleVoiceCommand = (transcript) => {
+    console.log("🎤 You said:", transcript);
+
     if (!recipe) return;
 
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      console.warn("SpeechRecognition not supported in your phone.");
-      return;
+    if (transcript.includes("start")) {
+      console.log("🟢 Command: START");
+      const ingredients = recipe.recipes
+        .split(/\r?\n/)
+        .filter((line) => line.trim() !== "")
+        .join(". ");
+      const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
+      speakText(fullText);
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognition.lang = "en-US";
+    if (transcript.includes("stop")) {
+      console.log("🔴 Command: STOP");
+      if (window.responsiveVoice) window.responsiveVoice.cancel();
+    }
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript
-        .trim()
-        .toLowerCase();
-      console.log("🎤 You said:", transcript);
+    if (transcript.includes("pause")) {
+      console.log("⏸️ Command: PAUSE");
+      if (window.responsiveVoice) window.responsiveVoice.pause();
+    }
 
-      if (transcript.includes("start")) {
-        console.log("🟢 Command: START");
-        const ingredients = recipe.recipes
-          .split(/\r?\n/)
-          .filter((line) => line.trim() !== "")
-          .join(". ");
-        const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
-        speakText(fullText);
-      }
+    if (transcript.includes("resume")) {
+      console.log("▶️ Command: RESUME");
+      if (window.responsiveVoice) window.responsiveVoice.resume();
+    }
+  };
 
-      if (transcript.includes("stop")) {
-        console.log("🔴 Command: STOP");
-        if (window.responsiveVoice) window.responsiveVoice.cancel();
-      }
+  const { startRecognition, stopRecognition } = useVoiceRecognition({
+    onResult: handleVoiceCommand,
+    lang: "en-US",
+  });
 
-      if (transcript.includes("pause")) {
-        console.log("⏸️ Command: PAUSE");
-        if (window.responsiveVoice) window.responsiveVoice.pause();
-      }
-
-      if (transcript.includes("resume")) {
-        console.log("▶️ Command: RESUME");
-        if (window.responsiveVoice) window.responsiveVoice.resume();
-      }
-    };
-
-    recognition.start();
-    return () => recognition.stop();
+  useEffect(() => {
+    startRecognition();
+    return () => stopRecognition();
   }, [recipe]);
 
   if (!recipe) return <p className="p-4">Loading...</p>;
