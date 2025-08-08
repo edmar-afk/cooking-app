@@ -1,53 +1,27 @@
 @import "tailwindcss";
 
-/* Custom fallback color classes to make sure colors appear even if Tailwind purges them */
+/* index.css */
 
-.bg-orange-500 {
-	background-color: #f97316;
-}
-
-.bg-orange-200 {
-	background-color: #fed7aa;
-}
-
-.hover\:bg-orange-200:hover {
-	background-color: #fed7aa;
-}
-
-.hover\:text-orange-800:hover {
-	color: #c2410c;
-}
-
-.text-orange-600 {
-	color: #ea580c;
-}
-
-.text-white {
+.nav-icon {
+	background-color: #f97316; /* orange-500 */
 	color: #ffffff;
+	padding: 0.5rem;
+	border-radius: 9999px;
+	transition: background-color 0.3s, color 0.3s;
 }
 
-.text-xs {
+.nav-icon:hover {
+	background-color: #fed7aa; /* orange-200 */
+	color: #c2410c; /* orange-800 */
+}
+
+.nav-text {
 	font-size: 0.75rem;
 	line-height: 1rem;
 }
 
-.underline {
+.nav-text.active {
 	text-decoration: underline;
-}
-
-.font-bold {
-	font-weight: 700;
-}
-
-.bg-white {
-	background-color: #ffffff;
-}
-
-.border-t {
-	border-top-width: 1px;
-}
-
-.border-gray-200 {
-	--tw-border-opacity: 1;
-	border-color: rgb(229 231 235 / var(--tw-border-opacity));
+	font-weight: bold;
+	color: #ea580c; /* orange-600 */
 }
