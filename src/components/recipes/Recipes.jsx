@@ -4,7 +4,6 @@ import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
-  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
     if (foodId) {
@@ -34,8 +33,6 @@ function Recipes({ foodId }) {
       setTimeout(() => {
         window.speechSynthesis.speak(utterance);
       }, 200);
-    } else {
-      alert("Text-to-Speech is not supported in this browser.");
     }
   };
 
@@ -44,7 +41,7 @@ function Recipes({ foodId }) {
 
     if (!recipe) return;
 
-    if (transcript.includes("start")) {
+    if (transcript === "start") {
       console.log("🟢 Command: START");
       const ingredients = recipe.recipes
         .split(/\r?\n/)
@@ -54,17 +51,17 @@ function Recipes({ foodId }) {
       speakText(fullText);
     }
 
-    if (transcript.includes("stop")) {
+    if (transcript === "stop") {
       console.log("🔴 Command: STOP");
       window.speechSynthesis.cancel();
     }
 
-    if (transcript.includes("pause")) {
+    if (transcript === "pause") {
       console.log("⏸️ Command: PAUSE");
       window.speechSynthesis.pause();
     }
 
-    if (transcript.includes("resume")) {
+    if (transcript === "resume") {
       console.log("▶️ Command: RESUME");
       window.speechSynthesis.resume();
     }
@@ -78,48 +75,14 @@ function Recipes({ foodId }) {
   useEffect(() => {
     if (recipe) {
       startRecognition();
-      setIsListening(true);
     }
     return () => stopRecognition();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipe]);
-
-  const handleStartSpeaking = () => {
-    if (!recipe) return;
-
-    const ingredients = recipe.recipes
-      .split(/\r?\n/)
-      .filter((line) => line.trim() !== "")
-      .join(". ");
-
-    const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
-    speakText(fullText);
-  };
-
-  const handleTestVoice = () => {
-    speakText("This is a voice test using Windows speech synthesis.");
-  };
 
   if (!recipe) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="p-4 mt-8 pb-32 space-y-4">
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={handleStartSpeaking}
-          className="px-4 py-2 rounded btn-mic-start text-white"
-        >
-          Start Speaking
-        </button>
-
-        <button
-          onClick={handleTestVoice}
-          className="px-4 py-2 rounded bg-blue-500 text-white"
-        >
-          Test Voice
-        </button>
-      </div>
-
       <div>
         <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
         <div className="space-y-1">
