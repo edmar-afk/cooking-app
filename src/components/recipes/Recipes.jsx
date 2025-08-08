@@ -84,14 +84,16 @@ function Recipes({ foodId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipe]);
 
-  const handleTestMic = () => {
-    if (!isListening) {
-      startRecognition();
-      setIsListening(true);
-    } else {
-      stopRecognition();
-      setIsListening(false);
-    }
+  const handleStartSpeaking = () => {
+    if (!recipe) return;
+
+    const ingredients = recipe.recipes
+      .split(/\r?\n/)
+      .filter((line) => line.trim() !== "")
+      .join(". ");
+
+    const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
+    speakText(fullText);
   };
 
   const handleTestVoice = () => {
@@ -104,10 +106,10 @@ function Recipes({ foodId }) {
     <div className="p-4 mt-8 pb-32 space-y-4">
       <div className="flex gap-2 mb-4">
         <button
-          onClick={handleTestMic}
-          className={isListening ? "btn-mic-stop" : "btn-mic-start"}
+          onClick={handleStartSpeaking}
+          className="px-4 py-2 rounded btn-mic-start text-white"
         >
-          {isListening ? "Stop Mic" : "Test Mic"}
+          Start Speaking
         </button>
 
         <button
