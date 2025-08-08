@@ -6,6 +6,7 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
 	const startRecognition = () => {
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+		
 
 		if (isIOS) {
 			alert("iOS browsers do not support speech recognition. Please use Chrome on Android.");
@@ -21,9 +22,9 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
 
 		const recognition = new SpeechRecognition();
 		recognition.lang = lang;
-		recognition.interimResults = false;
+		recognition.interimResults = true;
 		recognition.maxAlternatives = 1;
-		recognition.continuous = false;
+		recognition.continuous = true;
 
 		recognition.onresult = (event) => {
 			const transcript = event.results[0][0].transcript.toLowerCase();

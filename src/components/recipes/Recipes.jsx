@@ -71,6 +71,7 @@ function Recipes({ foodId }) {
   useEffect(() => {
     startRecognition();
     return () => stopRecognition();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipe]);
 
   if (!recipe) return <p className="p-4">Loading...</p>;
