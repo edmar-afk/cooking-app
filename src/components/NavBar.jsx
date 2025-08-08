@@ -13,7 +13,7 @@ function NavBar() {
 						className=" bg-orange-500 hover:bg-orange-200 hover:text-orange-800 duration-300 p-2 rounded-full"
 						fontSize="large"
 					/>
-					<p className={`text-xs ${location.pathname === "/" ? "underline font-bold" : ""}`}>Home</p>
+					<p className={`text-xs ${location.pathname === "/" ? "underline font-bold" : ""}`}>Homes</p>
 				</NavLink>
 
 				<NavLink
