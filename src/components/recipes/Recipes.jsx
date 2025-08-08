@@ -6,7 +6,8 @@ function Recipes({ foodId }) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://code.responsivevoice.org/responsivevoice.js?key=Of5LDZy2";
+    script.src =
+      "https://code.responsivevoice.org/responsivevoice.js?key=Of5LDZy2";
     script.async = true;
     document.body.appendChild(script);
     return () => document.body.removeChild(script);
@@ -24,7 +25,9 @@ function Recipes({ foodId }) {
   const speakText = (text) => {
     if (window.responsiveVoice) {
       window.responsiveVoice.cancel();
-      window.responsiveVoice.speak(text, "Filipino Female");
+      setTimeout(() => {
+        window.responsiveVoice.speak(text, "Filipino Female");
+      }, 500); // small delay to ensure cancel finishes
     }
   };
 
@@ -44,11 +47,13 @@ function Recipes({ foodId }) {
     recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-
-      console.log("You said:", transcript); // ✅ Show what you spoke
+      const transcript = event.results[event.results.length - 1][0].transcript
+        .trim()
+        .toLowerCase();
+      console.log("🎤 You said:", transcript);
 
       if (transcript.includes("start")) {
+        console.log("🟢 Command: START");
         const ingredients = recipe.recipes
           .split(/\r?\n/)
           .filter((line) => line.trim() !== "")
@@ -56,13 +61,19 @@ function Recipes({ foodId }) {
         const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
         speakText(fullText);
       }
+
       if (transcript.includes("stop")) {
+        console.log("🔴 Command: STOP");
         if (window.responsiveVoice) window.responsiveVoice.cancel();
       }
+
       if (transcript.includes("pause")) {
+        console.log("⏸️ Command: PAUSE");
         if (window.responsiveVoice) window.responsiveVoice.pause();
       }
+
       if (transcript.includes("resume")) {
+        console.log("▶️ Command: RESUME");
         if (window.responsiveVoice) window.responsiveVoice.resume();
       }
     };
@@ -85,7 +96,9 @@ function Recipes({ foodId }) {
           ))}
       </div>
 
-      <p className="font-bold mt-4 mb-2 flex items-center gap-2">Instructions</p>
+      <p className="font-bold mt-4 mb-2 flex items-center gap-2">
+        Instructions
+      </p>
       <div className="whitespace-pre-line">{recipe.instruction}</div>
     </div>
   );
