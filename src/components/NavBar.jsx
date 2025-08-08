@@ -9,7 +9,7 @@ function NavBar() {
 					to="/home"
 					end
 					className={({ isActive }) => `p-2.5 flex flex-col items-center ${isActive ? "text-orange-600" : ""}`}>
-					<HomeIcon
+					<HomeIcon style={{ color: '#000' }}
 						className="text-white bg-orange-500 hover:bg-orange-200 hover:text-orange-800 duration-300 p-2 rounded-full"
 						fontSize="large"
 					/>
