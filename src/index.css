@@ -99,3 +99,28 @@
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
 }
+
+
+
+
+
+.custom-food-from-gray-950 {
+	--tw-gradient-from: #030712;
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(3, 7, 18, 0));
+	background-image: linear-gradient(to top, var(--tw-gradient-stops));
+}
+
+.custom-food-via-gray-950-20 {
+	--tw-gradient-via: rgba(3, 7, 18, 0.2);
+	--tw-gradient-to: transparent;
+	--tw-gradient-from: #030712;
+	background-image: linear-gradient(to top, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to));
+}
+
+.custom-food-text-white {
+	color: #ffffff;
+}
+
+.custom-food-text-gray-300 {
+	color: #d1d5db;
+}
