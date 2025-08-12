@@ -23,6 +23,12 @@ function Home() {
 
   return (
     <>
+      <button
+        className="refresh-btn"
+        onClick={() => window.location.reload(true)}
+      >
+        Refresh
+      </button>
       <div className="p-4 overflow-y-scroll h-screen pb-32">
         <Header />
         <Search onSearch={setSearchTerm} />
