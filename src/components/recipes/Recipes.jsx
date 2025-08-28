@@ -86,7 +86,7 @@ function Recipes({ foodId }) {
       <button onClick={startRecognition}>🎤 Start Listening</button>
       <button onClick={stopRecognition}>🛑 Stop</button>
       <div>
-        <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
+        <p className="font-bold mb-2 flex items-center gap-2">Ingredientss</p>
         <div className="space-y-1">
           {recipe.recipes
             .split(/\r?\n/)
