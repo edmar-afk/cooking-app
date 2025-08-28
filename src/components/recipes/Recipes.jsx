@@ -28,20 +28,13 @@ function Recipes({ foodId }) {
   }, [foodId]);
 
   const speakRecipe = () => {
-    if (!voiceLoaded) {
-      alert("Text-to-speech not ready yet. Please wait a moment.");
-      return;
-    }
     if (!recipe) return;
-
-    const ingredients = recipe.recipes
-      .split(/\r?\n/)
-      .filter((line) => line.trim() !== "")
-      .join(". ");
-    const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
-
-    responsiveVoice.cancel();
-    responsiveVoice.speak(fullText, "UK English Female");
+    const utterance = new SpeechSynthesisUtterance(
+      `Mga Sangkap: ${recipe.recipes}. Mga Panuto: ${recipe.instruction}`
+    );
+    utterance.lang = "tl-PH"; // Tagalog voice
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleVoiceCommand = (transcript) => {
