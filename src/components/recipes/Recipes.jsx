@@ -41,7 +41,7 @@ function Recipes({ foodId }) {
     const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
 
     responsiveVoice.cancel();
-    responsiveVoice.speak(fullText, "Filipino Female");
+    responsiveVoice.speak(fullText, "UK English Female");
   };
 
   const handleVoiceCommand = (transcript) => {
