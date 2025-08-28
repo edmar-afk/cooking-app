@@ -1,10 +1,22 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import api from "../../assets/api";
 import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
-  const [transcriptText, setTranscriptText] = useState(""); // New state for user speech
+  const [transcriptText, setTranscriptText] = useState("");
+  const [voiceLoaded, setVoiceLoaded] = useState(false);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://code.responsivevoice.org/responsivevoice.js?key=Of5LDZy2";
+    script.async = true;
+    script.onload = () => setVoiceLoaded(true);
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
 
   useEffect(() => {
     if (foodId) {
@@ -16,32 +28,19 @@ function Recipes({ foodId }) {
   }, [foodId]);
 
   const speakText = (text) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US";
-
-      const voices = window.speechSynthesis.getVoices();
-      const selectedVoice = voices.find(
-        (voice) => voice.name.includes("Microsoft") || voice.lang === "en-US"
-      );
-
-      if (selectedVoice) utterance.voice = selectedVoice;
-
-      setTimeout(() => {
-        window.speechSynthesis.speak(utterance);
-      }, 200);
+    if (voiceLoaded && window.responsiveVoice) {
+      responsiveVoice.cancel();
+      responsiveVoice.speak(text, "Filipino Female");
+    } else {
+      console.warn("ResponsiveVoice not loaded yet");
     }
   };
 
   const handleVoiceCommand = (transcript) => {
-    setTranscriptText(transcript); // Update the transcript state
-    console.log("🎤 You said:", transcript);
-
+    setTranscriptText(transcript);
     if (!recipe) return;
 
-    if (transcript === "start") {
+    if (transcript.toLowerCase() === "start") {
       const ingredients = recipe.recipes
         .split(/\r?\n/)
         .filter((line) => line.trim() !== "")
@@ -50,9 +49,9 @@ function Recipes({ foodId }) {
       speakText(fullText);
     }
 
-    if (transcript === "stop") window.speechSynthesis.cancel();
-    if (transcript === "pause") window.speechSynthesis.pause();
-    if (transcript === "resume") window.speechSynthesis.resume();
+    if (transcript.toLowerCase() === "stop") responsiveVoice?.cancel();
+    if (transcript.toLowerCase() === "pause") responsiveVoice?.pause();
+    if (transcript.toLowerCase() === "resume") responsiveVoice?.resume();
   };
 
   const { startRecognition, stopRecognition } = useVoiceRecognition({
@@ -63,7 +62,7 @@ function Recipes({ foodId }) {
   useEffect(() => {
     if (recipe) startRecognition();
     return () => stopRecognition();
-  }, [recipe]);
+  }, [recipe, startRecognition, stopRecognition]);
 
   if (!recipe) return <p className="p-4">Loading...</p>;
 
@@ -84,7 +83,7 @@ function Recipes({ foodId }) {
         </button>
       </div>
 
-      <p className="mt-2 text-gray-700">You said: {transcriptText}</p> {/* Display transcript */}
+      <p className="mt-2 text-gray-700">You said: {transcriptText}</p>
 
       <div>
         <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
@@ -92,8 +91,8 @@ function Recipes({ foodId }) {
           {recipe.recipes
             .split(/\r?\n/)
             .filter((line) => line.trim() !== "")
-            .map((line, index) => (
-              <p key={index}>{line}</p>
+            .map((line, idx) => (
+              <p key={idx}>{line}</p>
             ))}
         </div>
       </div>
