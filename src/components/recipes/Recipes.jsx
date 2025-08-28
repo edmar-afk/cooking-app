@@ -4,6 +4,7 @@ import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
+  const [transcriptText, setTranscriptText] = useState(""); // New state for user speech
 
   useEffect(() => {
     if (foodId) {
@@ -26,9 +27,7 @@ function Recipes({ foodId }) {
         (voice) => voice.name.includes("Microsoft") || voice.lang === "en-US"
       );
 
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
-      }
+      if (selectedVoice) utterance.voice = selectedVoice;
 
       setTimeout(() => {
         window.speechSynthesis.speak(utterance);
@@ -37,12 +36,12 @@ function Recipes({ foodId }) {
   };
 
   const handleVoiceCommand = (transcript) => {
+    setTranscriptText(transcript); // Update the transcript state
     console.log("🎤 You said:", transcript);
 
     if (!recipe) return;
 
     if (transcript === "start") {
-      console.log("🟢 Command: START");
       const ingredients = recipe.recipes
         .split(/\r?\n/)
         .filter((line) => line.trim() !== "")
@@ -51,20 +50,9 @@ function Recipes({ foodId }) {
       speakText(fullText);
     }
 
-    if (transcript === "stop") {
-      console.log("🔴 Command: STOP");
-      window.speechSynthesis.cancel();
-    }
-
-    if (transcript === "pause") {
-      console.log("⏸️ Command: PAUSE");
-      window.speechSynthesis.pause();
-    }
-
-    if (transcript === "resume") {
-      console.log("▶️ Command: RESUME");
-      window.speechSynthesis.resume();
-    }
+    if (transcript === "stop") window.speechSynthesis.cancel();
+    if (transcript === "pause") window.speechSynthesis.pause();
+    if (transcript === "resume") window.speechSynthesis.resume();
   };
 
   const { startRecognition, stopRecognition } = useVoiceRecognition({
@@ -73,9 +61,7 @@ function Recipes({ foodId }) {
   });
 
   useEffect(() => {
-    if (recipe) {
-      startRecognition();
-    }
+    if (recipe) startRecognition();
     return () => stopRecognition();
   }, [recipe]);
 
@@ -83,10 +69,25 @@ function Recipes({ foodId }) {
 
   return (
     <div className="p-4 mt-8 pb-32 space-y-4">
-      <button onClick={startRecognition}>🎤 Start Listening</button>
-      <button onClick={stopRecognition}>🛑 Stop</button>
+      <div className="space-x-2">
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={startRecognition}
+        >
+          🎤 Start Listening
+        </button>
+        <button
+          className="px-4 py-2 bg-red-500 text-white rounded"
+          onClick={stopRecognition}
+        >
+          🛑 Stop
+        </button>
+      </div>
+
+      <p className="mt-2 text-gray-700">You said: {transcriptText}</p> {/* Display transcript */}
+
       <div>
-        <p className="font-bold mb-2 flex items-center gap-2">Ingredientssss</p>
+        <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
         <div className="space-y-1">
           {recipe.recipes
             .split(/\r?\n/)
