@@ -10,12 +10,16 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (isIOS) {
-      alert("iOS browsers do not support speech recognition. Please use Chrome on Android.");
+      alert(
+        "iOS browsers do not support speech recognition. Please use Chrome on Android."
+      );
       return;
     }
 
     if (!SpeechRecognition) {
-      alert("Speech recognition is not supported in this browser. Try using Chrome on Android.");
+      alert(
+        "Speech recognition is not supported in this browser. Try using Chrome on Android."
+      );
       return;
     }
 
@@ -48,7 +52,9 @@ export function useVoiceRecognition({ onResult, lang = "en-US" }) {
 
     recognition.onend = () => {
       if (isListeningRef.current) {
-        recognition.start(); // Restart automatically
+        setTimeout(() => {
+          if (isListeningRef.current) recognition.start();
+        }, 500); // 0.5s delay
       }
     };
 

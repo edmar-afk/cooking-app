@@ -83,6 +83,8 @@ function Recipes({ foodId }) {
 
   return (
     <div className="p-4 mt-8 pb-32 space-y-4">
+      <button onClick={startRecognition}>🎤 Start Listening</button>
+      <button onClick={stopRecognition}>🛑 Stop</button>
       <div>
         <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
         <div className="space-y-1">
