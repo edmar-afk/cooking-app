@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LoginIcon from "@mui/icons-material/Login";
@@ -48,11 +48,7 @@ function Header({ foodId }) {
 
   return (
     <div className="flex flex-row justify-between items-center p-4">
-      <ArrowBackIcon
-        fontSize="medium"
-        className="cursor-pointer"
-        onClick={() => navigate(-1)}
-      />
+      <Link to={'/home'}><ArrowBackIcon fontSize="medium" className="cursor-pointer" /></Link>
       <p className="font-semibold text-lg">Food Details</p>
       {user?.id ? (
         <FavoriteIcon
