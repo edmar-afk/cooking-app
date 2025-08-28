@@ -34,7 +34,7 @@ function Recipes({ foodId }) {
     } else {
       console.warn("ResponsiveVoice not loaded yet");
     }
-  };
+  }; 
 
   const handleVoiceCommand = (transcript) => {
     setTranscriptText(transcript);
