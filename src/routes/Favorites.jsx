@@ -25,7 +25,7 @@ function Favorites() {
 
 	return (
 		<>
-			<Header userName={user.first_name} />
+			<Header userName={user?.first_name || ""} />
 			<div className="p-4">
 				<ul>
 					{favorites.map((item) => (
