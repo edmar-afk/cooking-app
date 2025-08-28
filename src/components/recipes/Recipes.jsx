@@ -7,7 +7,6 @@ function Recipes({ foodId }) {
   const [transcriptText, setTranscriptText] = useState("");
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const audio1Instance = useRef(null);
-  const audio2Instance = useRef(null);
 
   useEffect(() => {
     if (foodId) {
@@ -20,34 +19,23 @@ function Recipes({ foodId }) {
 
   const handleVoiceCommand = (transcript) => {
     setTranscriptText(transcript);
-    if (!recipe || !audioUnlocked) return;
+    if (!audioUnlocked || !audio1Instance.current) return;
 
     const cmd = transcript.toLowerCase();
 
     if (cmd === "pause" || cmd === "pause audio one") {
-      audio1Instance.current?.pause();
+      audio1Instance.current.pause();
     }
 
     if (cmd === "start" || cmd === "play audio one") {
-      audio1Instance.current?.play().catch(() => {
-        console.log("Playback failed. Make sure you clicked unlock first.");
+      audio1Instance.current.play().catch(() => {
+        console.log("Playback failed. Make sure you clicked the button first.");
       });
     }
 
     if (cmd === "stop audio one") {
-      if (audio1Instance.current) {
-        audio1Instance.current.pause();
-        audio1Instance.current.currentTime = 0;
-      }
-    }
-
-    if (cmd === "play audio two") audio2Instance.current?.play();
-    if (cmd === "pause audio two") audio2Instance.current?.pause();
-    if (cmd === "stop audio two") {
-      if (audio2Instance.current) {
-        audio2Instance.current.pause();
-        audio2Instance.current.currentTime = 0;
-      }
+      audio1Instance.current.pause();
+      audio1Instance.current.currentTime = 0;
     }
   };
 
@@ -56,20 +44,15 @@ function Recipes({ foodId }) {
     lang: "en-US",
   });
 
-  const unlockAudioAndStart = () => {
+  const playAudio1 = () => {
     if (recipe?.audio1) {
       audio1Instance.current = new Audio(recipe.audio1);
-      audio1Instance.current.load();
-      audio1Instance.current
-        .play()
-        .catch(() => console.log("Playback failed on unlock"));
+      audio1Instance.current.play().catch(() => {
+        console.log("Playback failed on user gesture");
+      });
+      setAudioUnlocked(true);
+      startRecognition();
     }
-    if (recipe?.audio2) {
-      audio2Instance.current = new Audio(recipe.audio2);
-      audio2Instance.current.load();
-    }
-    setAudioUnlocked(true);
-    startRecognition();
   };
 
   if (!recipe) return <p className="p-4">Loading...</p>;
@@ -80,9 +63,9 @@ function Recipes({ foodId }) {
         {!audioUnlocked ? (
           <button
             className="px-4 py-2 bg-green-500 text-white rounded"
-            onClick={unlockAudioAndStart}
+            onClick={playAudio1}
           >
-            🎤 Start Listening & Unlock Audio
+            ▶ Play Audio & Start Listening
           </button>
         ) : (
           <>
