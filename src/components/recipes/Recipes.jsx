@@ -27,31 +27,33 @@ function Recipes({ foodId }) {
     }
   }, [foodId]);
 
-  const speakText = (text) => {
-    if (voiceLoaded && window.responsiveVoice) {
-      responsiveVoice.cancel();
-      responsiveVoice.speak(text, "Filipino Female");
-    } else {
-      console.warn("ResponsiveVoice not loaded yet");
+  const speakRecipe = () => {
+    if (!voiceLoaded) {
+      alert("Text-to-speech not ready yet. Please wait a moment.");
+      return;
     }
-  }; 
+    if (!recipe) return;
+
+    const ingredients = recipe.recipes
+      .split(/\r?\n/)
+      .filter((line) => line.trim() !== "")
+      .join(". ");
+    const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
+
+    responsiveVoice.cancel();
+    responsiveVoice.speak(fullText, "Filipino Female");
+  };
 
   const handleVoiceCommand = (transcript) => {
     setTranscriptText(transcript);
     if (!recipe) return;
 
-    if (transcript.toLowerCase() === "start") {
-      const ingredients = recipe.recipes
-        .split(/\r?\n/)
-        .filter((line) => line.trim() !== "")
-        .join(". ");
-      const fullText = `Ingredients: ${ingredients}. Instructions: ${recipe.instruction}`;
-      speakText(fullText);
-    }
+    const cmd = transcript.toLowerCase();
 
-    if (transcript.toLowerCase() === "stop") responsiveVoice?.cancel();
-    if (transcript.toLowerCase() === "pause") responsiveVoice?.pause();
-    if (transcript.toLowerCase() === "resume") responsiveVoice?.resume();
+    if (cmd === "start") speakRecipe(); // triggers same function as button
+    if (cmd === "stop") responsiveVoice?.cancel();
+    if (cmd === "pause") responsiveVoice?.pause();
+    if (cmd === "resume") responsiveVoice?.resume();
   };
 
   const { startRecognition, stopRecognition } = useVoiceRecognition({
@@ -80,6 +82,12 @@ function Recipes({ foodId }) {
           onClick={stopRecognition}
         >
           🛑 Stop
+        </button>
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded"
+          onClick={speakRecipe}
+        >
+          🔊 Read Recipe
         </button>
       </div>
 
