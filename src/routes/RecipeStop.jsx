@@ -15,7 +15,7 @@ function RecipeStop() {
     onResult: (transcript) => {
       if (transcript.includes("play")) {
         stopRecognition();
-        navigate(`/recipe/${foodId}/play`);
+        navigate(`/recipe/${foodId}`);
       }
     },
     lang: "en-US", // you can change to "tl-PH" for Tagalog
