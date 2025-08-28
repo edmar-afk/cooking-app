@@ -1,22 +1,13 @@
-/* eslint-disable no-undef */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import api from "../../assets/api";
 import { useVoiceRecognition } from "../useVoiceRecognition";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
   const [transcriptText, setTranscriptText] = useState("");
-  const [voiceLoaded, setVoiceLoaded] = useState(false);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://code.responsivevoice.org/responsivevoice.js?key=Of5LDZy2";
-    script.async = true;
-    script.onload = () => setVoiceLoaded(true);
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const audio1Instance = useRef(null);
+  const audio2Instance = useRef(null);
 
   useEffect(() => {
     if (foodId) {
@@ -27,26 +18,37 @@ function Recipes({ foodId }) {
     }
   }, [foodId]);
 
-  const speakRecipe = () => {
-    if (!recipe) return;
-    const utterance = new SpeechSynthesisUtterance(
-      `Mga Sangkap: ${recipe.recipes}. Mga Panuto: ${recipe.instruction}`
-    );
-    utterance.lang = "tl-PH"; // Tagalog voice
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  };
-
   const handleVoiceCommand = (transcript) => {
     setTranscriptText(transcript);
-    if (!recipe) return;
+    if (!recipe || !audioUnlocked) return;
 
     const cmd = transcript.toLowerCase();
 
-    if (cmd === "start") speakRecipe(); // triggers same function as button
-    if (cmd === "stop") responsiveVoice?.cancel();
-    if (cmd === "pause") responsiveVoice?.pause();
-    if (cmd === "resume") responsiveVoice?.resume();
+    if (cmd === "pause" || cmd === "pause audio one") {
+      audio1Instance.current?.pause();
+    }
+
+    if (cmd === "start" || cmd === "play audio one") {
+      audio1Instance.current?.play().catch(() => {
+        console.log("Playback failed. Make sure you clicked unlock first.");
+      });
+    }
+
+    if (cmd === "stop audio one") {
+      if (audio1Instance.current) {
+        audio1Instance.current.pause();
+        audio1Instance.current.currentTime = 0;
+      }
+    }
+
+    if (cmd === "play audio two") audio2Instance.current?.play();
+    if (cmd === "pause audio two") audio2Instance.current?.pause();
+    if (cmd === "stop audio two") {
+      if (audio2Instance.current) {
+        audio2Instance.current.pause();
+        audio2Instance.current.currentTime = 0;
+      }
+    }
   };
 
   const { startRecognition, stopRecognition } = useVoiceRecognition({
@@ -54,34 +56,50 @@ function Recipes({ foodId }) {
     lang: "en-US",
   });
 
-  useEffect(() => {
-    if (recipe) startRecognition();
-    return () => stopRecognition();
-  }, [recipe, startRecognition, stopRecognition]);
+  const unlockAudioAndStart = () => {
+    if (recipe?.audio1) {
+      audio1Instance.current = new Audio(recipe.audio1);
+      audio1Instance.current.load();
+      audio1Instance.current
+        .play()
+        .catch(() => console.log("Playback failed on unlock"));
+    }
+    if (recipe?.audio2) {
+      audio2Instance.current = new Audio(recipe.audio2);
+      audio2Instance.current.load();
+    }
+    setAudioUnlocked(true);
+    startRecognition();
+  };
 
   if (!recipe) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="p-4 mt-8 pb-32 space-y-4">
       <div className="space-x-2">
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={startRecognition}
-        >
-          🎤 Start Listening
-        </button>
-        <button
-          className="px-4 py-2 bg-red-500 text-white rounded"
-          onClick={stopRecognition}
-        >
-          🛑 Stop
-        </button>
-        <button
-          className="px-4 py-2 bg-green-500 text-white rounded"
-          onClick={speakRecipe}
-        >
-          🔊 Read Recipe
-        </button>
+        {!audioUnlocked ? (
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded"
+            onClick={unlockAudioAndStart}
+          >
+            🎤 Start Listening & Unlock Audio
+          </button>
+        ) : (
+          <>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+              onClick={startRecognition}
+            >
+              🎤 Start Listening
+            </button>
+            <button
+              className="px-4 py-2 bg-red-500 text-white rounded"
+              onClick={stopRecognition}
+            >
+              🛑 Stop
+            </button>
+          </>
+        )}
       </div>
 
       <p className="mt-2 text-gray-700">You said: {transcriptText}</p>
