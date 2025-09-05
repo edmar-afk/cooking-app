@@ -54,7 +54,7 @@ function Recipes({ foodId }) {
   if (!recipe) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="p-4 mt-8 pb-32 space-y-4">
+    <div className="p-4 pb-32 space-y-4 bg-white">
       {isRunning ? (
         <button
           className="px-4 py-2 bg-red-500 text-white rounded"
