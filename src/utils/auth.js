@@ -6,7 +6,7 @@ export function getUserInfoFromToken(token) {
 		const decodedPayload = JSON.parse(atob(base64));
 
 		// Log the entire payload (optional for debugging)
-		console.log("Decoded Token Payload:", decodedPayload);
+		//console.log("Decoded Token Payload:", decodedPayload);
 
 		// Return all user-related fields from the token
 		return {

@@ -7,10 +7,10 @@ function Header() {
 
 	return (
 		<div className="header-container">
-			<div className="header-text">
-				<p>Welcome to Cooking App,</p>
-				<p className="name">
-					{user?.last_name || "Guest"}
+			<div className="header-text w-72">
+				<p>Hello, {user?.last_name || "Guest"}</p>
+				<p className="text-2xl font-bold">
+					What are you cooking Today?
 				</p>
 			</div>
 			<div className="chef-box">

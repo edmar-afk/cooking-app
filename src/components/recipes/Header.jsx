@@ -47,15 +47,17 @@ function Header({ foodId }) {
   };
 
   return (
-    <div className="flex flex-row justify-between items-center p-4">
-      <Link to={'/home'}><ArrowBackIcon fontSize="medium" className="cursor-pointer" /></Link>
-      <p className="font-semibold text-lg">Food Details</p>
+    <div className="flex flex-row justify-between items-center p-4 bg-transparent">
+      <Link to={"/home"} className="bg-white p-1.5 rounded-full">
+        <ArrowBackIcon fontSize="medium" className="cursor-pointer" />
+      </Link>
+    
       {user?.id ? (
         <FavoriteIcon
-          fontSize="medium"
+          fontSize="large"
           onClick={toggleFavorite}
           className={`cursor-pointer transition-colors ${
-            isFavorited ? "text-red-500" : "text-gray-400 hover:text-red-400"
+            isFavorited ? "text-white bg-red-500  p-1.5 rounded-full hover:text-red-400" : "text-gray-400 bg-white p-1.5 rounded-full hover:text-red-400"
           }`}
         />
       ) : (

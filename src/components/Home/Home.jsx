@@ -5,7 +5,7 @@ import Foods from "./Foods";
 import Header from "./Header";
 import Tips from "./Tips";
 import api from "../../assets/api";
-
+import CountertopsIcon from "@mui/icons-material/Countertops";
 function Home() {
   const [foods, setFoods] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +32,11 @@ function Home() {
       <div className="p-4 overflow-y-scroll h-screen pb-32">
         <Header />
         <Search onSearch={setSearchTerm} />
+        <div className="flex flex-row justify-between items-center mt-4 ">
+          {" "}
+          <p className="font-semibold">Food Lists</p>
+          <CountertopsIcon className="text-gray-400" />
+        </div>
         <div className="overflow-x-auto">
           <div className="flex gap-4 w-max">
             <Foods foods={filteredFoods} />

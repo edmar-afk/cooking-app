@@ -46,7 +46,7 @@ function Profile() {
 								src={
 									profile?.profile_picture
 										? `${BASE_URL}${profile.profile_picture}`
-										: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?..."
+										: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkI3OpDcTmKZyPB6N7jJjfvz5RAV-KuNEPMQ&s"
 								}
 								className="w-32 h-32 rounded-full object-cover transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6"
 								alt="Profile"
