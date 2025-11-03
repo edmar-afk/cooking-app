@@ -10,7 +10,7 @@ function Header() {
 			<div className="header-text w-72">
 				<p>Hello, {user?.last_name || "Guest"}</p>
 				<p className="text-2xl font-bold">
-					What are you cooking Today?
+					What are you cooking Today? (Updated)
 				</p>
 			</div>
 			<div className="chef-box">
