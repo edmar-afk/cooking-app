@@ -8,6 +8,7 @@ import Recipe from "./routes/Recipe";
 import Favorites from "./routes/Favorites";
 import RecipeStop from "./routes/RecipeStop";
 import RecipePlay from "./routes/RecipePlay";
+
 function Logout() {
   localStorage.clear();
   return <Navigate to="/" />;
