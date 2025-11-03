@@ -54,7 +54,7 @@ function Tips() {
               onClick={() => handleOpen(tip)}
               className="flex flex-col w-[100px] items-center mb-8 cursor-pointer"
             >
-              <img src={tip.image} className="w-12" alt="" />
+              <img src={tip.image} className="w-12 " alt="" />
               <p className="text-center font-semibold text-xs mt-2">
                 {tip.title}
               </p>
