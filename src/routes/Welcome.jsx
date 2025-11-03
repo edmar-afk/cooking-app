@@ -14,7 +14,7 @@ function Welcome() {
       <div className="absolute bottom-0 z-20 p-8 rounded-xl text-center w-full max-w-xl custom-welcome-bg custom-welcome-text custom-welcome-blur">
         <h1 className="text-3xl font-extrabold mb-4">Welcome to 🎉</h1>
         <p className="text-xl">
-          Cooking instructions innovation of speech recognition (Updated)
+          Cooking instructions innovation of speech recognition 
         </p>
         <Features />
         <div>
