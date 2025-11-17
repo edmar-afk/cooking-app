@@ -6,6 +6,12 @@ import Body from "../components/recipes/Body";
 import NavBar from "../components/NavBar";
 import { useVoiceRecognition } from "../components/useVoiceRecognition";
 
+function decodeHtml(html) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+}
+
 function RecipePlay() {
   const { foodId } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -65,16 +71,14 @@ function RecipePlay() {
       <div className="p-4 mt-8 pb-32 space-y-4">
         <div>
           <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
-          <div className="space-y-1">
-            {recipe.recipes
-              .split(/\r?\n/)
-              .filter((line) => line.trim() !== "")
-              .map((line, idx) => (
-                <p key={idx}>{line}</p>
-              ))}
-          </div>
+
+          <div
+            className="prose prose-sm text-white"
+            dangerouslySetInnerHTML={{ __html: recipe.recipes }}
+          ></div>
         </div>
       </div>
+
       <NavBar />
     </>
   );

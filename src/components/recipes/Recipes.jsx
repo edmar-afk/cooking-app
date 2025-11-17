@@ -75,14 +75,12 @@ function Recipes({ foodId }) {
 
       <div>
         <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
-        <div className="space-y-1">
-          {recipe.recipes
-            .split(/\r?\n/)
-            .filter((line) => line.trim() !== "")
-            .map((line, idx) => (
-              <p key={idx}>{line}</p>
-            ))}
-        </div>
+
+        <div
+          className="space-y-1"
+          style={{ whiteSpace: "pre-line" }}
+          dangerouslySetInnerHTML={{ __html: recipe.recipes }}
+        />
       </div>
     </div>
   );

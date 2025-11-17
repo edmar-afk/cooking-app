@@ -31,8 +31,10 @@ function RecipesPlay({ foodId }) {
       navigate(`/recipe/${foodId}/stop`);
     }
 
-    if (cmd === "pause" || cmd === "pause audio one") audio1Instance.current?.pause();
-    if (cmd === "start" || cmd === "play audio one") audio1Instance.current?.play();
+    if (cmd === "pause" || cmd === "pause audio one")
+      audio1Instance.current?.pause();
+    if (cmd === "start" || cmd === "play audio one")
+      audio1Instance.current?.play();
   };
 
   useEffect(() => {
@@ -67,14 +69,11 @@ function RecipesPlay({ foodId }) {
       <p className="mt-2 text-gray-700">You said: {transcriptText}</p>
       <div>
         <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
-        <div className="space-y-1">
-          {recipe.recipes
-            .split(/\r?\n/)
-            .filter((line) => line.trim() !== "")
-            .map((line, idx) => (
-              <p key={idx}>{line}</p>
-            ))}
-        </div>
+        <div
+          className="space-y-1"
+          style={{ whiteSpace: "pre-line" }}
+          dangerouslySetInnerHTML={{ __html: recipe.recipes }}
+        />
       </div>
     </div>
   );
