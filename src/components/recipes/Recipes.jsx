@@ -74,7 +74,7 @@ function Recipes({ foodId }) {
       {/* <p className="mt-2 text-gray-700">You said: {transcriptText}</p> */}
 
       <div>
-        <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
+        
 
         <div
           className="space-y-1"

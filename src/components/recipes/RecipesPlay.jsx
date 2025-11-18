@@ -68,7 +68,7 @@ function RecipesPlay({ foodId }) {
     <div className="p-4 mt-8 pb-32 space-y-4">
       <p className="mt-2 text-gray-700">You said: {transcriptText}</p>
       <div>
-        <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
+        
         <div
           className="space-y-1"
           style={{ whiteSpace: "pre-line" }}

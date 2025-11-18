@@ -70,7 +70,7 @@ function RecipePlay() {
       <Body foodId={foodId} />
       <div className="p-4 mt-8 pb-32 space-y-4">
         <div>
-          <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
+       
 
           <div
             className="prose prose-sm text-white"

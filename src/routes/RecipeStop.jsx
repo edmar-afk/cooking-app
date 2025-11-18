@@ -42,7 +42,7 @@ function RecipeStop() {
       <Body foodId={foodId} />
       <div className="p-4 bg-white pb-32 space-y-4">
         <div>
-          <p className="font-bold mb-2 flex items-center gap-2">Ingredients</p>
+        
           <div
             className="space-y-1"
             style={{ whiteSpace: "pre-line" }}
