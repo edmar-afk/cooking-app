@@ -1,12 +1,14 @@
 import React from "react";
 import GroupIcon from "@mui/icons-material/Group";
 import { Link } from "react-router-dom";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
-function Foods({ foods }) {
+function Foods({ foods, category, search }) {
   return (
     <>
-      {foods.length === 0 ? (
-        <div className="text-gray-500 text-sm mt-4">
+      {foods.length === 0 && search !== "" ? (
+        <div className="text-red-700 text-lg font-bold ml-16 mt-4 flex flex-col items-center justify-center">
+          <SentimentVeryDissatisfiedIcon fontSize="large" />
           No matching food found.
         </div>
       ) : (
