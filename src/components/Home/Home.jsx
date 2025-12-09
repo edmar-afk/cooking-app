@@ -21,29 +21,21 @@ function Home() {
     "Noodles",
   ];
 
-  useEffect(() => {
+  const loadFoods = async () => {
     const fetchCategory = async (cat) => {
       const res = await api.get(`/api/foods/${cat}/`);
       return { category: cat, foods: res.data };
     };
+    const results = await Promise.all(categories.map(fetchCategory));
+    setFoods(results);
+  };
 
-    const loadAll = async () => {
-      const results = await Promise.all(categories.map(fetchCategory));
-      setFoods(results);
-    };
-
-    loadAll();
+  useEffect(() => {
+    loadFoods();
   }, []);
 
   return (
     <>
-      <button
-        className="refresh-btn"
-        onClick={() => window.location.reload(true)}
-      >
-        Refresh
-      </button>
-
       <div className="p-4 overflow-y-scroll h-screen pb-32">
         <Header />
         <Search onSearch={setSearchTerm} />
@@ -51,7 +43,7 @@ function Home() {
         <div className="flex flex-row justify-between items-center mt-4">
           <p className="font-semibold">Food Lists</p>
           <div className="flex flex-row items-center gap-2">
-            <AddRecipes />
+            <AddRecipes onUploadSuccess={loadFoods} />
             <CountertopsIcon className="text-gray-400" />
           </div>
         </div>

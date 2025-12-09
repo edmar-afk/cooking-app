@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../assets/api";
 import { useVoiceRecognition } from "../useVoiceRecognition";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
@@ -19,7 +20,13 @@ function Recipes({ foodId }) {
     if (foodId) {
       api
         .get(`/api/recipes/${foodId}/`)
-        .then((res) => setRecipe(res.data[0]))
+        .then((res) => {
+          if (res.data.length > 0) {
+            setRecipe(res.data[0]);
+          } else {
+            setRecipe({ recipes: "" }); // placeholder for empty recipes
+          }
+        })
         .catch((err) => console.error(err));
     }
   }, [foodId]);
@@ -55,7 +62,7 @@ function Recipes({ foodId }) {
 
   return (
     <div className="p-4 pb-32 space-y-4 bg-white">
-      {isRunning ? (
+      {/* {isRunning ? (
         <button
           className="px-4 py-2 bg-red-500 text-white rounded"
           onClick={handleStop}
@@ -69,19 +76,21 @@ function Recipes({ foodId }) {
         >
           Start
         </button>
-      )}
+      )} */}
 
-      {/* <p className="mt-2 text-gray-700">You said: {transcriptText}</p> */}
-
-      <div>
-        
-
+      {recipe.recipes && recipe.recipes.trim() !== "" ? (
         <div
-          className="space-y-1"
+          className="space-y-1 mt-4"
           style={{ whiteSpace: "pre-line" }}
           dangerouslySetInnerHTML={{ __html: recipe.recipes }}
         />
-      </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center mt-6 text-gray-500">
+          <SentimentVeryDissatisfiedIcon className="text-6xl mb-2" />
+          <p className="text-lg font-semibold">No recipes displayed.</p>
+          <p className="text-sm">Upload recipes for this food.</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { Modal, Box, Button } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import api from "../../assets/api";
 
-function AddRecipes() {
+function AddRecipes({ onUploadSuccess }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     name: "",
-    title: "",
     description: "",
     serve: "",
     category: "",
-    recipes: "",
-    instruction: "",
     image: null,
   });
 
@@ -27,19 +24,20 @@ function AddRecipes() {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("name", form.name);
-    formData.append("title", form.title);
-    formData.append("description", form.title);
+    formData.append("description", form.description);
+    formData.append("title", form.description);
     formData.append("serve", form.serve);
     formData.append("category", form.category);
     formData.append("image", form.image);
-    formData.append("recipe.recipes", form.recipes);
-    formData.append("recipe.instruction", form.instruction);
 
-    await api.post("/upload-food-and-recipe/", formData, {
+    const res = await api.post("/api/upload-food/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
+    console.log("Uploaded Food Item:", res.data);
     setOpen(false);
+
+    if (onUploadSuccess) onUploadSuccess(); // <-- refresh foods
   };
 
   return (
@@ -86,27 +84,14 @@ function AddRecipes() {
                 Description
               </label>
               <textarea
-                name="title"
-                rows="2"
-                placeholder="Adobong Crispy Baki nga lami kaayo"
-                value={form.title}
-                onChange={handleChange}
-                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-              ></textarea>
-            </div>
-
-            {/* <div>
-              <label className="font-semibold text-gray-700 text-sm">
-                Description
-              </label>
-              <textarea
                 name="description"
-                rows="2"
+                placeholder="Adobong Crispy Baki nga lami kaayo"
+                rows="3"
                 value={form.description}
                 onChange={handleChange}
                 className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
               ></textarea>
-            </div> */}
+            </div>
 
             <div>
               <label className="font-semibold text-gray-700 text-sm">
@@ -139,33 +124,8 @@ function AddRecipes() {
                 <option value="Seafood">Seafood</option>
                 <option value="Vegetable">Vegetable</option>
                 <option value="Noodles">Noodles</option>
+                <option value="Snacks">Snacks</option>
               </select>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700 text-sm">
-                Ingredients
-              </label>
-              <textarea
-                name="recipes"
-                rows="5"
-                value={form.recipes}
-                onChange={handleChange}
-                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700 text-sm">
-                Instructions
-              </label>
-              <textarea
-                name="instruction"
-                rows="5"
-                value={form.instruction}
-                onChange={handleChange}
-                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-              ></textarea>
             </div>
 
             <div>
