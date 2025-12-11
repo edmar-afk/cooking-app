@@ -1,20 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../assets/api";
-import { useVoiceRecognition } from "../useVoiceRecognition";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import AddRecipe from "../Home/AddRecipe";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import StopIcon from "@mui/icons-material/Stop";
 
 function Recipes({ foodId }) {
   const [recipe, setRecipe] = useState(null);
-  const [transcriptText, setTranscriptText] = useState("");
-  const [isRunning, setIsRunning] = useState(false);
-  const audio1Instance = useRef(null);
-  const navigate = useNavigate();
 
-  const { startRecognition, stopRecognition } = useVoiceRecognition({
-    onResult: (text) => setTranscriptText(text),
-    lang: "en-US",
-  });
+  const navigate = useNavigate();
+  const utteranceRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     if (foodId) {
@@ -24,71 +24,142 @@ function Recipes({ foodId }) {
           if (res.data.length > 0) {
             setRecipe(res.data[0]);
           } else {
-            setRecipe({ recipes: "" }); // placeholder for empty recipes
+            setRecipe({ recipes: "", instruction: "" });
           }
         })
         .catch((err) => console.error(err));
     }
   }, [foodId]);
 
-  useEffect(() => {
-    if (transcriptText.toLowerCase().includes("stop")) {
-      handleStop();
-    }
-  }, [transcriptText]);
-
-  const handleStart = () => {
-    if (recipe?.audio1) {
-      audio1Instance.current = new Audio(recipe.audio1);
-      audio1Instance.current
-        .play()
-        .catch(() => console.log("Audio playback failed"));
-    }
-    startRecognition();
-    setIsRunning(true);
+  const fetchRecipe = () => {
+    api
+      .get(`/api/recipes/${foodId}/`)
+      .then((res) => {
+        if (res.data.length > 0) {
+          setRecipe(res.data[0]);
+        } else {
+          setRecipe({ recipes: "", instruction: "" });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
-  const handleStop = () => {
-    if (audio1Instance.current) {
-      audio1Instance.current.pause();
-      audio1Instance.current.currentTime = 0;
+  useEffect(() => {
+    if (foodId) {
+      fetchRecipe();
     }
-    stopRecognition();
-    setIsRunning(false);
-    navigate(`/recipe/${foodId}/stop`);
+  }, [foodId]);
+
+  const getFullText = () => {
+    const recipeText = recipe?.recipes || "";
+    const instructionText = recipe?.instruction || "";
+
+    return (
+      "Recipes: \n" +
+      recipeText.replace(/<[^>]+>/g, "") +
+      "\n\nInstructions:\n" +
+      instructionText.replace(/<[^>]+>/g, "")
+    );
+  };
+
+  const startTTS = () => {
+    const fullText = getFullText();
+
+    if (!fullText.trim()) return;
+
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(fullText);
+
+    utter.onend = () => {
+      setIsPlaying(false);
+      setIsPaused(false);
+    };
+
+    utteranceRef.current = utter;
+
+    window.speechSynthesis.speak(utter);
+
+    setIsPlaying(true);
+    setIsPaused(false);
+  };
+
+  const pauseTTS = () => {
+    window.speechSynthesis.pause();
+    setIsPaused(true);
+    setIsPlaying(false);
+  };
+
+  const resumeTTS = () => {
+    window.speechSynthesis.resume();
+    setIsPaused(false);
+    setIsPlaying(true);
+  };
+
+  const stopTTS = () => {
+    window.speechSynthesis.cancel();
+    setIsPlaying(false);
+    setIsPaused(false);
   };
 
   if (!recipe) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="p-4 pb-32 space-y-4 bg-white">
-      {/* {isRunning ? (
+      <div className="flex flex-row items-center gap-3">
+        {!isPlaying && (
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded flex items-center gap-2"
+            onClick={() => {
+              if (isPaused) {
+                resumeTTS();
+              } else {
+                startTTS();
+              }
+            }}
+          >
+            <PlayArrowIcon /> Play
+          </button>
+        )}
+
+        {isPlaying && (
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded flex items-center gap-2"
+            onClick={pauseTTS}
+          >
+            <PauseIcon /> Pause
+          </button>
+        )}
+
         <button
-          className="px-4 py-2 bg-red-500 text-white rounded"
-          onClick={handleStop}
+          className="px-4 py-2 bg-red-500 text-white rounded flex items-center gap-2"
+          onClick={stopTTS}
         >
-          Stop
+          <StopIcon /> Stop
         </button>
-      ) : (
-        <button
-          className="px-4 py-2 bg-green-500 text-white rounded"
-          onClick={handleStart}
-        >
-          Start
-        </button>
-      )} */}
+      </div>
 
       {recipe.recipes && recipe.recipes.trim() !== "" ? (
-        <div
-          className="space-y-1 mt-4"
-          style={{ whiteSpace: "pre-line" }}
-          dangerouslySetInnerHTML={{ __html: recipe.recipes }}
-        />
+        <div className="flex flex-col">
+          <p className="font-bold">Recipes:</p>
+          <div
+            className="space-y-1 mt-4"
+            style={{ whiteSpace: "pre-line" }}
+            dangerouslySetInnerHTML={{ __html: recipe.recipes }}
+          />
+
+          <p className="mt-8 font-bold">Instructions:</p>
+          <div
+            className="space-y-1 mt-4"
+            style={{ whiteSpace: "pre-line" }}
+            dangerouslySetInnerHTML={{ __html: recipe.instruction }}
+          />
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center mt-6 text-gray-500">
           <SentimentVeryDissatisfiedIcon className="text-6xl mb-2" />
           <p className="text-lg font-semibold">No recipes displayed.</p>
           <p className="text-sm">Upload recipes for this food.</p>
+          <AddRecipe foodItemId={foodId} onSuccess={fetchRecipe} />
         </div>
       )}
     </div>

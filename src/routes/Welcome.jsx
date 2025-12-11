@@ -24,8 +24,8 @@ function Welcome() {
           >
             Continue as Guest
           </Link>
-          <p className="text-xs">OR</p>
-          <div className="mt-2">
+          {/* <p className="text-xs">OR</p> */}
+          {/* <div className="mt-2">
             <Link
               className="text-sm font-extrabold custom-welcome-link"
               to="/login"
@@ -39,7 +39,7 @@ function Welcome() {
             >
               Register
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
