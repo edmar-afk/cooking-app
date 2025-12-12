@@ -23,7 +23,7 @@ function Home() {
 
   const loadFoods = async () => {
     const fetchCategory = async (cat) => {
-      const res = await api.get(`/api/foods/${cat}/`);
+      const res = await api.get(`/foods/${cat.toLowerCase()}/`);
       return { category: cat, foods: res.data };
     };
     const results = await Promise.all(categories.map(fetchCategory));
