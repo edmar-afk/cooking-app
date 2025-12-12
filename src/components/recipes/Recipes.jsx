@@ -159,7 +159,7 @@ function Recipes({ foodId }) {
           <SentimentVeryDissatisfiedIcon className="text-6xl mb-2" />
           <p className="text-lg font-semibold">No recipes displayed.</p>
           <p className="text-sm">Upload recipes for this food.</p>
-          <AddRecipe foodItemId={foodId} onSuccess={fetchRecipe} />
+          {/* <AddRecipe foodItemId={foodId} onSuccess={fetchRecipe} /> */}
         </div>
       )}
     </div>

@@ -43,7 +43,7 @@ function Home() {
         <div className="flex flex-row justify-between items-center mt-4">
           <p className="font-semibold">Food Lists</p>
           <div className="flex flex-row items-center gap-2">
-            <AddRecipes onUploadSuccess={loadFoods} />
+            {/* <AddRecipes onUploadSuccess={loadFoods} /> */}
             <CountertopsIcon className="text-gray-400" />
           </div>
         </div>

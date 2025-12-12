@@ -35,7 +35,7 @@ function AddRecipe({ foodItemId, onSuccess  }) {
 
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-xl w-[95%] shadow-xl">
-          <h2 className="text-xl font-bold mb-4">Add Recipe</h2>
+          <h2 className="text-xl font-bold mb-4">Add food name and its description</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
