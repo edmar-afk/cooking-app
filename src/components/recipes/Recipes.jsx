@@ -64,39 +64,37 @@ function Recipes({ foodId }) {
 
   const startTTS = () => {
     const fullText = getFullText();
-
     if (!fullText.trim()) return;
 
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(fullText);
-
-    utter.onend = () => {
-      setIsPlaying(false);
-      setIsPaused(false);
-    };
-
-    utteranceRef.current = utter;
-
-    window.speechSynthesis.speak(utter);
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({
+        type: "TTS_PLAY",
+        text: fullText,
+      })
+    );
 
     setIsPlaying(true);
     setIsPaused(false);
   };
 
   const pauseTTS = () => {
-    window.speechSynthesis.pause();
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ type: "TTS_PAUSE" })
+    );
     setIsPaused(true);
     setIsPlaying(false);
   };
 
   const resumeTTS = () => {
-    window.speechSynthesis.resume();
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ type: "TTS_RESUME" })
+    );
     setIsPaused(false);
     setIsPlaying(true);
   };
 
   const stopTTS = () => {
-    window.speechSynthesis.cancel();
+    window.ReactNativeWebView.postMessage(JSON.stringify({ type: "TTS_STOP" }));
     setIsPlaying(false);
     setIsPaused(false);
   };
