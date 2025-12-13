@@ -106,16 +106,23 @@ function Recipes({ foodId }) {
       <div className="flex flex-row items-center gap-3">
         {!isPlaying && (
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded flex items-center gap-2"
+            className={`px-4 py-2 rounded flex items-center gap-2 ${
+              isPlaying ? "bg-blue-500 text-white" : "bg-green-500 text-white"
+            }`}
             onClick={() => {
-              if (isPaused) {
-                resumeTTS();
+              if (isPlaying) {
+                pauseTTS();
               } else {
-                startTTS();
+                if (isPaused) {
+                  resumeTTS();
+                } else {
+                  startTTS();
+                }
               }
             }}
           >
-            <PlayArrowIcon /> Play
+            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            {isPaused && !isPlaying ? "Resume" : "Play"}
           </button>
         )}
 
