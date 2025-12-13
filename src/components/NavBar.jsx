@@ -28,7 +28,7 @@ function NavBar() {
           </p>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="/favorites"
           className={({ isActive }) =>
             `p-2.5 flex flex-col items-center ${
@@ -46,7 +46,7 @@ function NavBar() {
           >
             Favorites
           </p>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to="/profile"

@@ -19,11 +19,13 @@ function Home() {
     "Seafood",
     "Vegetable",
     "Noodles",
+    "Snacks",
+    "Fish",
   ];
 
   const loadFoods = async () => {
     const fetchCategory = async (cat) => {
-      const res = await api.get(`/foods/${cat.toLowerCase()}/`);
+      const res = await api.get(`/api/foods/${cat.toLowerCase()}/`);
       return { category: cat, foods: res.data };
     };
     const results = await Promise.all(categories.map(fetchCategory));
