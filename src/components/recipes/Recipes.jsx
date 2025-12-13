@@ -140,14 +140,14 @@ function Recipes({ foodId }) {
 
       {recipe.recipes && recipe.recipes.trim() !== "" ? (
         <div className="flex flex-col">
-          <p className="font-bold">Recipes:</p>
+          <p className="font-bold">Mga Sangkap:</p>
           <div
             className="space-y-1 mt-4"
             style={{ whiteSpace: "pre-line" }}
             dangerouslySetInnerHTML={{ __html: recipe.recipes }}
           />
 
-          <p className="mt-8 font-bold">Instructions:</p>
+          <p className="mt-8 font-bold">Paraan ng Pagluluto:</p>
           <div
             className="space-y-1 mt-4"
             style={{ whiteSpace: "pre-line" }}
