@@ -26,8 +26,8 @@ function Home() {
     "Roasted Dishes",
     "Eggs",
     "Red Meat or Mutton",
-    "Desserts / Sweets",
-    "Breads / Pastries",
+    "Desserts and Sweets",
+    "Breads and Pastries",
     "Beverages",
 
   ];
