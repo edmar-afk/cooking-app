@@ -28,6 +28,7 @@ function Home() {
     "Red Meat or Mutton",
     "Desserts / Sweets",
     "Breads / Pastries",
+    "Beverages",
 
   ];
 
