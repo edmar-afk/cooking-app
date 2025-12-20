@@ -24,6 +24,7 @@ function Home() {
     "Fish",
     "Grilled and Roasted Dishes",
     "Roasted Dishes",
+    "Eggs",
   ];
 
   const loadFoods = async () => {
@@ -78,7 +79,10 @@ function Home() {
           })
         ) : (
           <div className="flex flex-col items-center justify-center mt-12 text-gray-500">
-            <SentimentVeryDissatisfiedIcon style={{ fontSize: 60 }} className="text-red-500"/>
+            <SentimentVeryDissatisfiedIcon
+              style={{ fontSize: 60 }}
+              className="text-red-500"
+            />
             <p className="mt-4 font-bold text-red-500 text-xl text-center">
               No results found when you search "{searchTerm}"
             </p>
