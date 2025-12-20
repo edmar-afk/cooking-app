@@ -26,6 +26,9 @@ function Home() {
     "Roasted Dishes",
     "Eggs",
     "Red Meat or Mutton",
+    "Desserts / Sweets",
+    "Breads / Pastries",
+
   ];
 
   const loadFoods = async () => {
