@@ -22,6 +22,8 @@ function Home() {
     "Noodles",
     "Snacks",
     "Fish",
+    "Grilled and Roasted Dishes",
+    "Roasted Dishes",
   ];
 
   const loadFoods = async () => {
