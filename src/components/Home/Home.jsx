@@ -25,6 +25,7 @@ function Home() {
     "Grilled and Roasted Dishes",
     "Roasted Dishes",
     "Eggs",
+    "Red Meat or Mutton",
   ];
 
   const loadFoods = async () => {
